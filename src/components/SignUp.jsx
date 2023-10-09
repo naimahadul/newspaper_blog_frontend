@@ -43,12 +43,10 @@ const Signup = () => {
   };
 
   return (
-    <section className="bg-gray-50 dark:bg-gray-900 flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
-      <div className="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
+    <section className="div1">
+      <div className="div2">
         <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
-          <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
-            Create an account
-          </h1>
+          <h1 className="heading">Create an account</h1>
           <form className="space-y-4 md:space-y-6" onSubmit={handleSubmit}>
             <Username value={username} onChange={handleUsernameChange} />
             <Email value={email} onChange={handleEmailChange} />
@@ -64,7 +62,7 @@ const Signup = () => {
               Already have an account?{" "}
               <a
                 href="/login"
-                className="font-medium text-primary-900 hover:underline dark:text-primary-200"
+                className="ah"
               >
                 Login here
               </a>

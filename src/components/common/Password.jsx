@@ -1,27 +1,26 @@
-import "../index.CSS"
+import "../signup/signup.css";
 // eslint-disable-next-line react/prop-types
-const Email = ({ value, onChange }) => {
+const Password = ({ value, onChange }) => {
   return (
     <div>
       <label
-        htmlFor="email"
+        htmlFor="password"
         className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
       >
-        Your email
+        Password
       </label>
       <input
-        type="email"
-        name="email"
-        id="email"
+        type="password"
+        name="password"
+        id="password"
+        placeholder="••••••••"
         className="input-style"
-        placeholder="name@company.com"
         value={value}
         onChange={onChange}
         required
-        autoComplete="off"
       />
     </div>
   );
 };
 
-export default Email;
+export default Password;

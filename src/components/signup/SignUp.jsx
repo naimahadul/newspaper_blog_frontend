@@ -1,9 +1,9 @@
 import { useState } from "react";
-import Username from "./Username";
-import Email from "./Email";
-import Password from "./Password";
-import ConfirmPassword from "./ConfirmPasword";
-import "../index.css";
+import Username from "../common/Username";
+import Email from "../common/Email";
+import Password from "../common/Password";
+import ConfirmPassword from "../common/ConfirmPasword.jsx";
+import "./signup.css";
 
 const Signup = () => {
   const [username, setUsername] = useState("");
@@ -58,12 +58,9 @@ const Signup = () => {
             <button type="submit" className="btn-primary">
               Create an account
             </button>
-            <p className="text-sm font-light text-gray-700 dark:text-gray-400">
+            <p className="para">
               Already have an account?{" "}
-              <a
-                href="/login"
-                className="ah"
-              >
+              <a href="/login" className="ah">
                 Login here
               </a>
             </p>

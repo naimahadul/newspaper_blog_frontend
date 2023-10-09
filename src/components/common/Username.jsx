@@ -1,4 +1,4 @@
-import "../index.CSS"
+import "../signup/signup.css"
 // eslint-disable-next-line react/prop-types
 const Username = ({ value, onChange }) => {
   return (

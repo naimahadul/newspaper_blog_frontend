@@ -1,7 +1,7 @@
 import { useState } from "react";
-import Username from "../Username";
-import Password from "../Password";
-import "./login.css"
+import Username from "../common/Username.jsx";
+import Password from "../common/Password.jsx";
+import "./login.css";
 const Login = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -29,21 +29,16 @@ const Login = () => {
       <div className="div1">
         <div className="div2">
           <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
-            <h1 className="heading">
-              Sign in to your account
-            </h1>
+            <h1 className="heading">Sign in to your account</h1>
             <form className="space-y-4 md:space-y-6" onSubmit={handleSubmit}>
               <Username value={username} onChange={handleUsernameChange} />
               <Password value={password} onChange={handlePasswordChange} />
               <button type="submit" className="btn-primary">
                 Sign in
               </button>
-              <p className="text-sm font-light text-gray-500 dark:text-gray-400">
+              <p className="para">
                 Dont have an account yet?{" "}
-                <a
-                  href="/signup"
-                  className="div3"
-                >
+                <a href="/signup" className="div3">
                   Sign up
                 </a>
               </p>

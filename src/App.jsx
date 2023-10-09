@@ -1,6 +1,6 @@
 import { Route, Routes } from "react-router-dom";
 import Login from "./components/login/Login.jsx";
-import Signup from "./components/SignUp.jsx";
+import Signup from "./components/signup/SignUp.jsx";
 
 const App = () => {
   return (

@@ -1,18 +1,18 @@
-import "../index.CSS";
+import "../signup/signup.css";
 // eslint-disable-next-line react/prop-types
-const Password = ({ value, onChange }) => {
+const ConfirmPassword = ({ value, onChange }) => {
   return (
     <div>
       <label
-        htmlFor="password"
+        htmlFor="confirm-password"
         className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
       >
-        Password
+        Confirm Password
       </label>
       <input
         type="password"
-        name="password"
-        id="password"
+        name="confirm-password"
+        id="confirm-password"
         placeholder="••••••••"
         className="input-style"
         value={value}
@@ -23,4 +23,4 @@ const Password = ({ value, onChange }) => {
   );
 };
 
-export default Password;
+export default ConfirmPassword;

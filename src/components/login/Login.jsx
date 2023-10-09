@@ -17,6 +17,10 @@ const Login = () => {
   const handleSubmit = (event) => {
     event.preventDefault();
 
+    if (password.length < 6) {
+      alert("Password must be at least 6 characters long.");
+      return;
+    }
     alert("login Successful");
   };
 
@@ -37,7 +41,7 @@ const Login = () => {
               <p className="text-sm font-light text-gray-500 dark:text-gray-400">
                 Dont have an account yet?{" "}
                 <a
-                  href=""
+                  href="/signup"
                   className="font-medium text-primary-600 hover:underline dark:text-blue-100"
                 >
                   Sign up

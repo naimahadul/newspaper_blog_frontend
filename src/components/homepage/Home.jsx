@@ -22,7 +22,7 @@ const blogData = [
     title: "Blog Title 4",
     content: "Description of blog 4...",
   },
-  // Add more blog data as needed
+  
 ];
 
 const Home = () => {

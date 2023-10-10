@@ -1,6 +1,8 @@
 import { useState } from "react";
 import Username from "../common/Username.jsx";
 import Password from "../common/Password.jsx";
+import Header from "../homepage/Header.jsx";
+import Footer from "../homepage/Footer.jsx";
 import "./login.css";
 const Login = () => {
   const [username, setUsername] = useState("");
@@ -26,6 +28,7 @@ const Login = () => {
 
   return (
     <section className="bg-gray-50 dark:bg-gray-900">
+      <Header/>
       <div className="div1">
         <div className="div2">
           <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
@@ -46,6 +49,7 @@ const Login = () => {
           </div>
         </div>
       </div>
+      <Footer/>
     </section>
   );
 };

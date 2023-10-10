@@ -3,6 +3,8 @@ import Username from "../common/Username";
 import Email from "../common/Email";
 import Password from "../common/Password";
 import ConfirmPassword from "../common/ConfirmPasword.jsx";
+import Header from "../homepage/Header";
+import Footer from "../homepage/Footer";
 import "./signup.css";
 
 const Signup = () => {
@@ -43,7 +45,9 @@ const Signup = () => {
   };
 
   return (
-    <section className="div1">
+    <div>
+      <Header/>
+ <section className="div1">
       <div className="div2">
         <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
           <h1 className="heading">Create an account</h1>
@@ -68,6 +72,9 @@ const Signup = () => {
         </div>
       </div>
     </section>
+    <Footer/>
+    </div>
+   
   );
 };
 

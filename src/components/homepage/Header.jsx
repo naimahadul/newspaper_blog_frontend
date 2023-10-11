@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import "../homepage/homepage.css"
 export const Header = () => {
   return (
     <div>
@@ -33,7 +34,7 @@ export const Header = () => {
           </nav>
         </div>
         <Link to="/login">
-          <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded">
+          <button className="header-login">
             Login
           </button>
         </Link>

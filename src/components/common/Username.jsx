@@ -13,7 +13,7 @@ const Username = ({ value, onChange }) => {
         type="text"
         name="username"
         id="username"
-        className="input-style"
+        className="input-style-signup"
         placeholder="Your username"
         value={value}
         onChange={onChange}

@@ -13,7 +13,7 @@ const Email = ({ value, onChange }) => {
         type="email"
         name="email"
         id="email"
-        className="input-style"
+        className="input-style-signup"
         placeholder="name@company.com"
         value={value}
         onChange={onChange}

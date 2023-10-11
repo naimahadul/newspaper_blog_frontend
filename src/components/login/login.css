@@ -3,27 +3,27 @@
 @tailwind utilities;
 
 @layer components {
-  .btn-primary {
-    @apply w-full text-white bg-blue-500 hover:bg-blue-200 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg 
+  .btn-login {
+    @apply w-full text-white bg-green-500 hover:bg-blue-200 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg 
     text-sm px-5 py-2.5 text-center dark:bg-blue-700 dark:hover:bg-blue-700 dark:focus:ring-blue-800;
   }
-  .input-style {
+  .input-style-login {
     @apply bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block 
     w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500;
   }
-  .heading {
+  .heading-login {
     @apply text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white;
   }
-  .div1 {
+  .div1-login {
     @apply flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0;
   }
-  .div2 {
+  .div2-login {
     @apply w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700;
   }
-  .div3 {
+  .div3-login {
     @apply font-medium hover:underline dark:text-blue-100;
   }
-  .para {
+  .para-login {
     @apply text-sm font-light text-gray-500 dark:text-gray-400;
   }
 }

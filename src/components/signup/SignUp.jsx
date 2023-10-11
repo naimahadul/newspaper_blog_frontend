@@ -46,35 +46,34 @@ const Signup = () => {
 
   return (
     <div>
-      <Header/>
- <section className="div1">
-      <div className="div2">
-        <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
-          <h1 className="heading">Create an account</h1>
-          <form className="space-y-4 md:space-y-6" onSubmit={handleSubmit}>
-            <Username value={username} onChange={handleUsernameChange} />
-            <Email value={email} onChange={handleEmailChange} />
-            <Password value={password} onChange={handlePasswordChange} />
-            <ConfirmPassword
-              value={confirmPassword}
-              onChange={handleConfirmPasswordChange}
-            />
-            <button type="submit" className="btn-primary">
-              Create an account
-            </button>
-            <p className="para">
-              Already have an account?{" "}
-              <a href="/login" className="ah">
-                Login here
-              </a>
-            </p>
-          </form>
+      <Header />
+      <section className="div1-signup">
+        <div className="div2-signup">
+          <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
+            <h1 className="heading-signup">Create an account</h1>
+            <form className="space-y-4 md:space-y-6" onSubmit={handleSubmit}>
+              <Username value={username} onChange={handleUsernameChange} />
+              <Email value={email} onChange={handleEmailChange} />
+              <Password value={password} onChange={handlePasswordChange} />
+              <ConfirmPassword
+                value={confirmPassword}
+                onChange={handleConfirmPasswordChange}
+              />
+              <button type="submit" className="signup-btn dark:bg-green-700">
+                Create an account
+              </button>
+              <p className="para-signup">
+                Already have an account?{" "}
+                <a href="/login" className="ah-signup">
+                  Login here
+                </a>
+              </p>
+            </form>
+          </div>
         </div>
-      </div>
-    </section>
-    <Footer/>
+      </section>
+      <Footer />
     </div>
-   
   );
 };
 

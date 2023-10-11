@@ -29,19 +29,19 @@ const Login = () => {
   return (
     <section className="bg-gray-50 dark:bg-gray-900">
       <Header/>
-      <div className="div1">
-        <div className="div2">
+      <div className="div1-login">
+        <div className="div2-login">
           <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
-            <h1 className="heading">Sign in to your account</h1>
+            <h1 className="heading-login">Sign in to your account</h1>
             <form className="space-y-4 md:space-y-6" onSubmit={handleSubmit}>
               <Username value={username} onChange={handleUsernameChange} />
               <Password value={password} onChange={handlePasswordChange} />
-              <button type="submit" className="btn-primary">
+              <button type="submit" className="btn-login bg-blue-600">
                 Sign in
               </button>
-              <p className="para">
+              <p className="para-login">
                 Dont have an account yet?{" "}
-                <a href="/signup" className="div3">
+                <a href="/signup" className="div3-login">
                   Sign up
                 </a>
               </p>

@@ -14,7 +14,7 @@ const ConfirmPassword = ({ value, onChange }) => {
         name="confirm-password"
         id="confirm-password"
         placeholder="••••••••"
-        className="input-style"
+        className="input-style-signup"
         value={value}
         onChange={onChange}
         required

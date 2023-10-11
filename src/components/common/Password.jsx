@@ -14,7 +14,7 @@ const Password = ({ value, onChange }) => {
         name="password"
         id="password"
         placeholder="••••••••"
-        className="input-style"
+        className="input-style-signup"
         value={value}
         onChange={onChange}
         required

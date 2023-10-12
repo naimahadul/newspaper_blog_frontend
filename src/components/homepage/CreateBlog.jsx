@@ -1,10 +1,13 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import Header from "./Header";
 import Footer from "./Footer";
-import "../homepage/homepage.css"
+import BlogCard from "./BlogCard";
+import "../homepage/homepage.css";
+
 const CreateBlog = () => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
+  const [blogs, setBlogs] = useState([]);
   const [successMessage, setSuccessMessage] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
 
@@ -29,8 +32,18 @@ const CreateBlog = () => {
       return;
     }
 
+    const newBlog = {
+      id: Math.random(),
+      title: title,
+      description: description,
+    };
+
+    setBlogs([...blogs, newBlog]);
     setSuccessMessage("Blog created successfully!");
     setErrorMessage("");
+    setTitle("");
+    setDescription("");
+    
   };
 
   return (
@@ -38,25 +51,14 @@ const CreateBlog = () => {
       <Header />
       <section className="create-blog-size1">
         <div className="create-blog-size2">
-          <h1 className="create-blog-heading">
-            Create a Blog
-          </h1>
-          {errorMessage && (
-            <div className="create-emsg">
-              {errorMessage}
-            </div>
-          )}
+          <h1 className="create-blog-heading">Create a Blog</h1>
+          {errorMessage && <div className="create-emsg">{errorMessage}</div>}
           {successMessage && (
-            <div className="create-smsg">
-              {successMessage}
-            </div>
+            <div className="create-smsg">{successMessage}</div>
           )}
           <form className="space-y-4 md:space-y-6" onSubmit={handleSubmit}>
             <div className="mb-4">
-              <label
-                htmlFor="title"
-                className="create-blog-label"
-              >
+              <label htmlFor="title" className="create-blog-label">
                 Blog Title
               </label>
               <input
@@ -70,10 +72,7 @@ const CreateBlog = () => {
               />
             </div>
             <div>
-              <label
-                htmlFor="description"
-                className="create-blog-label"
-              >
+              <label htmlFor="description" className="create-blog-label">
                 Blog Description
               </label>
               <textarea
@@ -84,16 +83,15 @@ const CreateBlog = () => {
                 className="create-blog-desc"
               ></textarea>
             </div>
-            <button
-              type="submit"
-              className="create-blog-button bg-sky-800"
-            >
+            <button type="submit" className="create-blog-button bg-sky-800">
               Create Blog
             </button>
           </form>
         </div>
+        
       </section>
-      <Footer />
+      <Footer/>
+     
     </div>
   );
 };

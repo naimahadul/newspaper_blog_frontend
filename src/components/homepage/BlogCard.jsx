@@ -1,22 +1,16 @@
 import React, { useState } from "react";
 import "../homepage/homepage.css";
 
-const BlogCard = ({
-  title: initialTitle,
-  content: initialContent,
-  onDelete,
-}) => {
+const BlogCard = ({ id, title: initialTitle, content: initialContent, onDelete }) => {
   const [title, setTitle] = useState(initialTitle);
   const [content, setContent] = useState(initialContent);
   const [isEditing, setIsEditing] = useState(false);
-
+  
   const handleDelete = () => {
-    const confirmDelete = window.confirm(
-      "Are you sure you want to delete this blog?"
-    );
+    const confirmDelete = window.confirm("Are you sure you want to delete this blog?");
 
     if (confirmDelete) {
-      onDelete();
+      onDelete(id); 
     }
   };
 
@@ -51,10 +45,7 @@ const BlogCard = ({
         )}
       </div>
       <div className="flex justify-between">
-        <button
-          onClick={() => setIsEditing(!isEditing)}
-          className="blogcard-edit-btn"
-        >
+        <button onClick={() => setIsEditing(!isEditing)} className="blogcard-edit-btn">
           {isEditing ? "Cancel" : "Edit"}
         </button>
         {isEditing && (

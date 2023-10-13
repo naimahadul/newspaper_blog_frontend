@@ -2,12 +2,13 @@ import React, { useState } from "react";
 import BlogCard from "./BlogCard";
 import { Header } from "../homepage/Header";
 import Footer from "../homepage/Footer";
-import BG from "../../assets/Images/bg.jpg"
+import BG from "../../assets/Images/bg.jpg";
 
 const Home = () => {
   const [blogTitle, setBlogTitle] = useState("");
   const [blogDescription, setBlogDescription] = useState("");
   const [blogs, setBlogs] = useState([]);
+  const [nextId, setNextId] = useState(1); 
 
   const handleBlogTitleChange = (event) => {
     setBlogTitle(event.target.value);
@@ -22,29 +23,27 @@ const Home = () => {
 
     if (blogTitle.trim() !== "" && blogDescription.trim() !== "") {
       const newBlog = {
+        id: nextId, 
         title: blogTitle,
         description: blogDescription,
       };
 
       setBlogs([...blogs, newBlog]);
+      setNextId(nextId + 1); 
       setBlogTitle("");
       setBlogDescription("");
+      console.log(nextId);
+      
     }
   };
 
-  const handleDeleteBlog = (index) => {
-    const updatedBlogs = blogs.filter((_, i) => i !== index);
+  const handleDeleteBlog = (id) => {
+    const updatedBlogs = blogs.filter((blog) => blog.id !== id);
     setBlogs(updatedBlogs);
   };
 
   return (
-    <div
-      className="flex flex-col min-h-screen bg-cover bg-no-repeat bg-fixed bg-opacity-75"
-      style={{
-        backgroundImage:
-        `url(${BG})`
-      }}
-    >
+    <div className="flex flex-col min-h-screen bg-cover bg-no-repeat bg-fixed bg-opacity-75" style={{ backgroundImage: `url(${BG})` }}>
       <Header />
       <div className="container mx-auto p-6 flex justify-center items-center min-h-screen">
         <div className="max-w-screen-md w-full">
@@ -54,10 +53,7 @@ const Home = () => {
           <div className="bg-gray-700 bg-opacity-75 text-white rounded-lg shadow-lg p-6 mb-6">
             <form onSubmit={handleCreateBlog}>
               <div className="mb-6">
-                <label
-                  htmlFor="blogTitle"
-                  className="block mb-2 text-sm font-medium text-white"
-                >
+                <label htmlFor="blogTitle" className="block mb-2 text-sm font-medium text-white">
                   Blog Title
                 </label>
                 <input
@@ -71,10 +67,7 @@ const Home = () => {
                 />
               </div>
               <div className="mb-6">
-                <label
-                  htmlFor="blogDescription"
-                  className="block mb-2 text-sm font-medium text-white"
-                >
+                <label htmlFor="blogDescription" className="block mb-2 text-sm font-medium text-white">
                   Blog Description
                 </label>
                 <textarea
@@ -93,12 +86,13 @@ const Home = () => {
             </form>
           </div>
           <div>
-            {blogs.map((blog, index) => (
+            {blogs.map((blog) => (
               <BlogCard
-                key={index}
+                key={blog.id} 
+                id={blog.id} 
                 title={blog.title}
                 content={blog.description}
-                onDelete={() => handleDeleteBlog(index)}
+                onDelete={handleDeleteBlog}
               />
             ))}
           </div>

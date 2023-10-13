@@ -60,4 +60,7 @@
   .home-title {
     @apply bg-gray-700 text-white border border-gray-300 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5;
   }
+  .home-bg-img {
+    @apply flex flex-col min-h-screen bg-cover bg-no-repeat bg-fixed bg-opacity-75;
+  }
 }

@@ -5,17 +5,21 @@ const BlogCard = ({ id, title: initialTitle, content: initialContent, onDelete }
   const [title, setTitle] = useState(initialTitle);
   const [content, setContent] = useState(initialContent);
   const [isEditing, setIsEditing] = useState(false);
-  
+  const [showFullContent, setShowFullContent] = useState(false);
+
   const handleDelete = () => {
     const confirmDelete = window.confirm("Are you sure you want to delete this blog?");
-
     if (confirmDelete) {
-      onDelete(id); 
+      onDelete(id);
     }
   };
 
   const handleUpdate = () => {
     setIsEditing(false);
+  };
+
+  const toggleFullContent = () => {
+    setShowFullContent(!showFullContent);
   };
 
   return (
@@ -41,10 +45,17 @@ const BlogCard = ({ id, title: initialTitle, content: initialContent, onDelete }
             rows="5"
           />
         ) : (
-          <p className="text-lg font-semibold">{content}</p>
+          <p className={`text-lg font-semibold ${showFullContent ? 'block' : 'truncate'}`}>
+            {content}
+          </p>
         )}
       </div>
-      <div className="flex justify-between">
+      {!isEditing && (
+        <button onClick={toggleFullContent} className="text-blue-500">
+          {showFullContent ? 'Read Less' : 'Read More'}
+        </button>
+      )}
+      <div className="flex justify-between mt-2"> 
         <button onClick={() => setIsEditing(!isEditing)} className="blogcard-edit-btn">
           {isEditing ? "Cancel" : "Edit"}
         </button>

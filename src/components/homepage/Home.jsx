@@ -43,7 +43,7 @@ const Home = () => {
   };
 
   return (
-    <div className="flex flex-col min-h-screen bg-cover bg-no-repeat bg-fixed bg-opacity-75" style={{ backgroundImage: `url(${BG})` }}>
+    <div className="home-bg-img" style={{ backgroundImage: `url(${BG})` }}>
       <Header />
       <div className="container mx-auto p-6 flex justify-center items-center min-h-screen">
         <div className="max-w-screen-md w-full">

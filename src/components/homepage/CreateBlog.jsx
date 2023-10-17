@@ -1,97 +1,55 @@
+// CreateBlog.jsx
 import React, { useState } from "react";
-import Header from "./Header";
-import Footer from "./Footer";
-import BlogCard from "./BlogCard";
-import "../homepage/homepage.css";
+import axios from "axios";
 
-const CreateBlog = () => {
-  const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
-  const [blogs, setBlogs] = useState([]);
-  const [successMessage, setSuccessMessage] = useState("");
-  const [errorMessage, setErrorMessage] = useState("");
+const CreateBlog = ({ token, setBlogs }) => {
+  const [blogTitle, setBlogTitle] = useState("");
+  const [blogDescription, setBlogDescription] = useState("");
 
-  const handleTitleChange = (e) => {
-    setTitle(e.target.value);
-    setErrorMessage("");
-    setSuccessMessage("");
+  const handleBlogTitleChange = (event) => {
+    setBlogTitle(event.target.value);
   };
 
-  const handleDescriptionChange = (e) => {
-    setDescription(e.target.value);
-    setErrorMessage("");
-    setSuccessMessage("");
+  const handleBlogDescriptionChange = (event) => {
+    setBlogDescription(event.target.value);
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+  const handleCreateBlog = async (event) => {
+    event.preventDefault();
 
-    if (!title.trim() || !description.trim()) {
-      setErrorMessage("Please fill in both title and description.");
-      setSuccessMessage("");
-      return;
+    if (blogTitle.trim() !== "" && blogDescription.trim() !== "") {
+      const newBlog = {
+        title: blogTitle,
+        description: blogDescription,
+      };
+
+      try {
+        const response = await axios.post(
+          "http://localhost:3000/blogs",
+          newBlog,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        const createdBlog = response.data;
+        setBlogs((prevBlogs) => [createdBlog, ...prevBlogs]);
+        clearInputFields();
+      } catch (error) {
+        console.error("Error creating blog:", error);
+      }
     }
+  };
 
-    const newBlog = {
-      id: Math.random(),
-      title: title,
-      description: description,
-    };
-
-    setBlogs([...blogs, newBlog]);
-    setSuccessMessage("Blog created successfully!");
-    setErrorMessage("");
-    setTitle("");
-    setDescription("");
-    
+  const clearInputFields = () => {
+    setBlogTitle("");
+    setBlogDescription("");
   };
 
   return (
-    <div>
-      <Header />
-      <section className="create-blog-size1">
-        <div className="create-blog-size2">
-          <h1 className="create-blog-heading">Create a Blog</h1>
-          {errorMessage && <div className="create-emsg">{errorMessage}</div>}
-          {successMessage && (
-            <div className="create-smsg">{successMessage}</div>
-          )}
-          <form className="space-y-4 md:space-y-6" onSubmit={handleSubmit}>
-            <div className="mb-4">
-              <label htmlFor="title" className="create-blog-label">
-                Blog Title
-              </label>
-              <input
-                type="text"
-                name="title"
-                id="title"
-                value={title}
-                onChange={handleTitleChange}
-                className="create-blog-title"
-                required=""
-              />
-            </div>
-            <div>
-              <label htmlFor="description" className="create-blog-label">
-                Blog Description
-              </label>
-              <textarea
-                id="description"
-                value={description}
-                onChange={handleDescriptionChange}
-                rows="5"
-                className="create-blog-desc"
-              ></textarea>
-            </div>
-            <button type="submit" className="create-blog-button bg-sky-800">
-              Create Blog
-            </button>
-          </form>
-        </div>
-        
-      </section>
-      <Footer/>
-     
+    <div className="home-form">
+      <form onSubmit={handleCreateBlog}>{/* Rest of your form code */}</form>
     </div>
   );
 };

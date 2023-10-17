@@ -63,4 +63,13 @@
   .home-bg-img {
     @apply flex flex-col min-h-screen bg-cover bg-no-repeat bg-fixed bg-opacity-75;
   }
+  .home-screen {
+    @apply container mx-auto p-6 flex justify-center items-center min-h-screen;
+  }
+  .home-form {
+    @apply bg-gray-700 bg-opacity-75 text-white rounded-lg shadow-lg p-6 mb-6;
+  }
+  .home-text {
+    @apply block mb-2 text-sm font-medium text-white;
+  }
 }

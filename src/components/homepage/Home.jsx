@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 import BlogCard from "./BlogCard";
 import { Header } from "../homepage/Header";
 import Footer from "../homepage/Footer";
@@ -8,7 +9,9 @@ const Home = () => {
   const [blogTitle, setBlogTitle] = useState("");
   const [blogDescription, setBlogDescription] = useState("");
   const [blogs, setBlogs] = useState([]);
-  const [nextId, setNextId] = useState(1); 
+  const [token, setToken] = useState(
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJmNjQyNWQzZS0zZmIwLTQzOGYtODkwNy02MWM4NzQ5ZTlmMGQiLCJpYXQiOjE2OTc1MzI1MTYsImV4cCI6MTY5NzUzNjExNn0.7hv5q0C1t0vq8-5UlVM09KzCmYVD6mWv-IohqlM4ENc"
+  );
 
   const handleBlogTitleChange = (event) => {
     setBlogTitle(event.target.value);
@@ -18,42 +21,75 @@ const Home = () => {
     setBlogDescription(event.target.value);
   };
 
-  const handleCreateBlog = (event) => {
+  const handleCreateBlog = async (event) => {
     event.preventDefault();
 
     if (blogTitle.trim() !== "" && blogDescription.trim() !== "") {
       const newBlog = {
-        id: nextId, 
         title: blogTitle,
         description: blogDescription,
       };
 
-      setBlogs([...blogs, newBlog]);
-      setNextId(nextId + 1); 
-      setBlogTitle("");
-      setBlogDescription("");
-      console.log(nextId);
-      
+      try {
+        const response = await axios.post(
+          "http://localhost:3000/blogs",
+          newBlog,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        const createdBlog = response.data;
+        setBlogs([createdBlog, ...blogs]);
+        setBlogTitle("");
+        setBlogDescription("");
+      } catch (error) {
+        console.error("Error creating blog:", error);
+      }
     }
   };
 
-  const handleDeleteBlog = (id) => {
-    const updatedBlogs = blogs.filter((blog) => blog.id !== id);
-    setBlogs(updatedBlogs);
+  const handleDeleteBlog = async (id) => {
+    try {
+      await axios.delete(`http://localhost:3000/blogs/${id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      const updatedBlogs = blogs.filter((blog) => blog.id !== id);
+      setBlogs(updatedBlogs);
+    } catch (error) {
+      console.error("Error deleting blog:", error);
+    }
   };
 
+  useEffect(() => {
+    const fetchBlogs = async () => {
+      try {
+        const response = await axios.get(
+          "http://localhost:3000/blogs?page=0&size=13"
+        );
+        setBlogs(response.data.data.rows);
+      } catch (error) {
+        console.error("Error fetching blog data:", error);
+      }
+    };
+    fetchBlogs();
+  }, [token]);
+  const reversedBlogs = [...blogs].reverse();
   return (
     <div className="home-bg-img" style={{ backgroundImage: `url(${BG})` }}>
       <Header />
-      <div className="container mx-auto p-6 flex justify-center items-center min-h-screen">
-        <div className="max-w-screen-md w-full">
+      <div className="home-screen">
+        <div className="max-w-screen-md w-full ">
           <h1 className="text-4xl font-bold mb-8 text-center text-black">
             Welcome to Blogger
           </h1>
-          <div className="bg-gray-700 bg-opacity-75 text-white rounded-lg shadow-lg p-6 mb-6">
+          <div className="home-form">
             <form onSubmit={handleCreateBlog}>
               <div className="mb-6">
-                <label htmlFor="blogTitle" className="block mb-2 text-sm font-medium text-white">
+                <label htmlFor="blogTitle" className="home-text">
                   Blog Title
                 </label>
                 <input
@@ -67,7 +103,7 @@ const Home = () => {
                 />
               </div>
               <div className="mb-6">
-                <label htmlFor="blogDescription" className="block mb-2 text-sm font-medium text-white">
+                <label htmlFor="blogDescription" className="home-text">
                   Blog Description
                 </label>
                 <textarea
@@ -86,10 +122,10 @@ const Home = () => {
             </form>
           </div>
           <div>
-            {blogs.map((blog) => (
+            {reversedBlogs.map((blog) => (
               <BlogCard
-                key={blog.id} 
-                id={blog.id} 
+                key={blog.id}
+                id={blog.id}
                 title={blog.title}
                 content={blog.description}
                 onDelete={handleDeleteBlog}

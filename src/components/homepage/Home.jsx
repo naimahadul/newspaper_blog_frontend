@@ -4,14 +4,13 @@ import BlogCard from "./BlogCard";
 import { Header } from "../homepage/Header";
 import Footer from "../homepage/Footer";
 import BG from "../../assets/Images/bg.jpg";
+import { useAuth } from "../../context/AuthContext";
 
 const Home = () => {
   const [blogTitle, setBlogTitle] = useState("");
   const [blogDescription, setBlogDescription] = useState("");
   const [blogs, setBlogs] = useState([]);
-  const [token, setToken] = useState(
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJmNjQyNWQzZS0zZmIwLTQzOGYtODkwNy02MWM4NzQ5ZTlmMGQiLCJpYXQiOjE2OTc1MzI1MTYsImV4cCI6MTY5NzUzNjExNn0.7hv5q0C1t0vq8-5UlVM09KzCmYVD6mWv-IohqlM4ENc"
-  );
+  const { token } = useAuth();
 
   const handleBlogTitleChange = (event) => {
     setBlogTitle(event.target.value);
@@ -23,7 +22,6 @@ const Home = () => {
 
   const handleCreateBlog = async (event) => {
     event.preventDefault();
-
     if (blogTitle.trim() !== "" && blogDescription.trim() !== "") {
       const newBlog = {
         title: blogTitle,
@@ -40,13 +38,39 @@ const Home = () => {
             },
           }
         );
-        const createdBlog = response.data;
+        const createdBlog = response.data.data;
         setBlogs([createdBlog, ...blogs]);
         setBlogTitle("");
         setBlogDescription("");
       } catch (error) {
         console.error("Error creating blog:", error);
       }
+    }
+  };
+
+  const handleUpdateBlog = async (id, updatedTitle, updatedContent) => {
+    try {
+      const response = await axios.put(
+        `http://localhost:3000/blogs/${id}`,
+        {
+          title: updatedTitle,
+          description: updatedContent,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      const updatedBlog = response.data.data;
+      setBlogs((prevBlogs) => {
+        return prevBlogs.map((blog) =>
+          blog.blogId === id ? updatedBlog : blog
+        );
+      });
+    } catch (error) {
+      console.error("Error updating blog:", error);
     }
   };
 
@@ -57,7 +81,7 @@ const Home = () => {
           Authorization: `Bearer ${token}`,
         },
       });
-      const updatedBlogs = blogs.filter((blog) => blog.id !== id);
+      const updatedBlogs = blogs.filter((blog) => blog.blogId !== id);
       setBlogs(updatedBlogs);
     } catch (error) {
       console.error("Error deleting blog:", error);
@@ -76,8 +100,7 @@ const Home = () => {
       }
     };
     fetchBlogs();
-  }, [token]);
-  const reversedBlogs = [...blogs].reverse();
+  }, []);
   return (
     <div className="home-bg-img" style={{ backgroundImage: `url(${BG})` }}>
       <Header />
@@ -122,13 +145,14 @@ const Home = () => {
             </form>
           </div>
           <div>
-            {reversedBlogs.map((blog) => (
+            {blogs.map((blog) => (
               <BlogCard
-                key={blog.id}
-                id={blog.id}
+                key={blog.blogId}
+                id={blog.blogId}
                 title={blog.title}
                 content={blog.description}
                 onDelete={handleDeleteBlog}
+                onUpdate={handleUpdateBlog}
               />
             ))}
           </div>

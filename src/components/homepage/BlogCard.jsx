@@ -6,6 +6,7 @@ const BlogCard = ({
   title: initialTitle,
   content: initialContent,
   onDelete,
+  onUpdate,
 }) => {
   const [title, setTitle] = useState(initialTitle);
   const [content, setContent] = useState(initialContent);
@@ -19,11 +20,11 @@ const BlogCard = ({
     if (confirmDelete) {
       onDelete(id);
     }
-    console.log(id);
   };
 
   const handleUpdate = () => {
     setIsEditing(false);
+    onUpdate(id, title, content);
   };
 
   const toggleFullContent = () => {
@@ -36,8 +37,8 @@ const BlogCard = ({
         <div className="w-1/3 mr-4">
           <img
             src={`https://picsum.photos/id/${Math.ceil(
-              Math.random() * 100
-            )}/200`}
+              Math.random() * 200
+            )}/200/250`}
             alt="Random Image"
             className="rounded-lg"
           />

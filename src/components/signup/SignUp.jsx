@@ -1,4 +1,5 @@
-import { useState } from "react";
+import React, { useState } from "react";
+import axios from "axios";
 import Username from "../common/Username";
 import Email from "../common/Email";
 import Password from "../common/Password";
@@ -29,10 +30,10 @@ const Signup = () => {
     setConfirmPassword(event.target.value);
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    if (password.length < 6) {
-      alert("Password must be at least 6 characters long.");
+    if (password.length < 8) {
+      alert("Password must be at least 8 characters long.");
       return;
     }
 
@@ -41,7 +42,22 @@ const Signup = () => {
       return;
     }
 
-    alert("Successfully registered!");
+    try {
+      const response = await axios.post("http://localhost:3000/auth/signup", {
+        username,
+        email,
+        password,
+      });
+      alert("Successfully registered! User ID: " + response.data.data.username);
+    } catch (error) {
+      if (error.response) {
+        alert("Error: " + error.response.data.data.message);
+      } else if (error.request) {
+        alert("Error: No response received from the server.");
+      } else {
+        alert("Error: " + error.message);
+      }
+    }
   };
 
   return (

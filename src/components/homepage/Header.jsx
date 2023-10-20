@@ -25,11 +25,6 @@ export const Header = () => {
                   Contact Us
                 </Link>
               </li>
-              {/* <li>
-                <Link to="/createblog" className="hover:text-gray-300">
-                  CreateBlog
-                </Link>
-              </li> */}
             </ul>
           </nav>
         </div>

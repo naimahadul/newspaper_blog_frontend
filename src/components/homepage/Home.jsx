@@ -10,7 +10,7 @@ const Home = () => {
   const [blogTitle, setBlogTitle] = useState("");
   const [blogDescription, setBlogDescription] = useState("");
   const [blogs, setBlogs] = useState([]);
-  const { token } = useAuth();
+  const { token,authorId } = useAuth();
 
   const handleBlogTitleChange = (event) => {
     setBlogTitle(event.target.value);
@@ -26,6 +26,7 @@ const Home = () => {
       const newBlog = {
         title: blogTitle,
         description: blogDescription,
+        authorId: authorId,
       };
 
       try {
@@ -151,6 +152,7 @@ const Home = () => {
                 id={blog.blogId}
                 title={blog.title}
                 content={blog.description}
+                blogAuthorId={blog.authorId}
                 onDelete={handleDeleteBlog}
                 onUpdate={handleUpdateBlog}
               />

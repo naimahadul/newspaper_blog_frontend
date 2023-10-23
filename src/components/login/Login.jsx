@@ -37,6 +37,7 @@ const Login = () => {
         data
       );
       login(response.data.data);
+      localStorage.setItem("token", response.data.data);
 
       if (response.status === 201) {
         alert("Login Successful ");

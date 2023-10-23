@@ -1,12 +1,22 @@
 import { Link } from "react-router-dom";
-import "../homepage/homepage.css"
+import React from 'react';
+import { useAuth } from "../../context/AuthContext.jsx";
+import "../homepage/homepage.css";
+
 export const Header = () => {
+  const { token, logout } = useAuth();
+
+  const handleLogout = () => {
+    // Call the logout function from the AuthContext to clear the token
+    logout();
+  };
+
   return (
     <div>
       <header className="flex justify-between p-4 bg-gray-800 text-white">
         <div className="flex items-center">
           <div className="text-2xl font-bold mr-4">
-            <span className="mr-4">Blogger</span> 
+            <span className="mr-4">Blogger</span>
           </div>
           <nav className="flex justify-center flex-1">
             <ul className="flex space-x-4">
@@ -28,11 +38,15 @@ export const Header = () => {
             </ul>
           </nav>
         </div>
-        <Link to="/login">
-          <button className="header-login">
-            Login
+        {token ? ( 
+          <button className="header-login" onClick={handleLogout}>
+            Logout
           </button>
-        </Link>
+        ) : (
+          <Link to="/login">
+            <button className="header-login">Login</button>
+          </Link>
+        )}
       </header>
     </div>
   );

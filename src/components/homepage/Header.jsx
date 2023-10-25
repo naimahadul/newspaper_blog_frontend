@@ -7,7 +7,6 @@ export const Header = () => {
   const { token, logout } = useAuth();
 
   const handleLogout = () => {
-    // Call the logout function from the AuthContext to clear the token
     logout();
   };
 

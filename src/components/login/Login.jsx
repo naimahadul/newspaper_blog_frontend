@@ -7,6 +7,7 @@ import "./login.css";
 import axios from "axios";
 import { useAuth } from "../../context/AuthContext.jsx";
 
+
 const Login = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -37,10 +38,8 @@ const Login = () => {
         data
       );
       login(response.data.data);
-      localStorage.setItem("token", response.data.data);
-
       if (response.status === 201) {
-        alert("Login Successful ");
+        window.location.href = "/";
       } else {
         alert("Login failed. Please check your credentials.");
       }

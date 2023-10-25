@@ -16,6 +16,12 @@ const BlogCard = ({
   const [isEditing, setIsEditing] = useState(false);
   const [showFullContent, setShowFullContent] = useState(false);
 
+  const handleCancel = () => {
+    setTitle(initialTitle);
+    setContent(initialContent);
+    setIsEditing(false);
+  };
+
   const handleDelete = () => {
     const confirmDelete = window.confirm(
       "Are you sure you want to delete this blog?"
@@ -24,6 +30,7 @@ const BlogCard = ({
       onDelete(id);
     }
   };
+
 
   const handleUpdate = () => {
     setIsEditing(false);
@@ -89,20 +96,33 @@ const BlogCard = ({
             </button>
           )}
           <div>
-            <button
-              onClick={() => setIsEditing(!isEditing)}
-              className="blogcard-edit-btn "
-            >
-              {isEditing ? "Cancel" : "Edit"}
-            </button>
-            {isEditing && (
-              <button onClick={handleUpdate} className="blogcard-update-btn">
-                Update
-              </button>
+            {blogAuthorId === authorId && (
+              <div>
+                <button
+                  onClick={() => {
+                    if (isEditing) {
+                      handleCancel();
+                    } else {
+                      setIsEditing(!isEditing);
+                    }
+                  }}
+                  className="blogcard-edit-btn "
+                >
+                  {isEditing ? "Cancel" : "Edit"}
+                </button>
+                {isEditing && (
+                  <button
+                    onClick={handleUpdate}
+                    className="blogcard-update-btn"
+                  >
+                    Update
+                  </button>
+                )}
+                <button onClick={handleDelete} className="blogcard-delete-btn">
+                  Delete
+                </button>
+              </div>
             )}
-            <button onClick={handleDelete} className="blogcard-delete-btn">
-              Delete
-            </button>
           </div>
         </div>
       </div>

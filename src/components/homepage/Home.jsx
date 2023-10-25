@@ -10,7 +10,7 @@ const Home = () => {
   const [blogTitle, setBlogTitle] = useState("");
   const [blogDescription, setBlogDescription] = useState("");
   const [blogs, setBlogs] = useState([]);
-  const { token,authorId } = useAuth();
+  const { token, authorId } = useAuth();
 
   const handleBlogTitleChange = (event) => {
     setBlogTitle(event.target.value);
@@ -89,19 +89,22 @@ const Home = () => {
     }
   };
 
-  useEffect(() => {
-    const fetchBlogs = async () => {
-      try {
-        const response = await axios.get(
-          "http://localhost:3000/blogs?page=0&size=13"
-        );
-        setBlogs(response.data.data.rows);
-      } catch (error) {
-        console.error("Error fetching blog data:", error);
-      }
-    };
-    fetchBlogs();
-  }, []);
+useEffect(() => {
+  const fetchBlogs = async () => {
+    try {
+      const response = await axios.get(
+        "http://localhost:3000/blogs?page=0&size=13"
+      );
+      const fetchedBlogs = response.data.data.rows;
+      fetchedBlogs.sort((a,b) => new Date(b.createdAt) - new Date(a.createdAt));
+      setBlogs(fetchedBlogs);
+    } catch (error) {
+      console.error("Error fetching blog data:", error);
+    }
+  };
+  fetchBlogs();
+}, []);
+
   return (
     <div className="home-bg-img" style={{ backgroundImage: `url(${BG})` }}>
       <Header />
@@ -110,41 +113,43 @@ const Home = () => {
           <h1 className="text-4xl font-bold mb-8 text-center text-black">
             Welcome to Blogger
           </h1>
-          <div className="home-form">
-            <form onSubmit={handleCreateBlog}>
-              <div className="mb-6">
-                <label htmlFor="blogTitle" className="home-text">
-                  Blog Title
-                </label>
-                <input
-                  type="text"
-                  id="blogTitle"
-                  value={blogTitle}
-                  onChange={handleBlogTitleChange}
-                  className="home-title"
-                  placeholder="Enter the title"
-                  required
-                />
-              </div>
-              <div className="mb-6">
-                <label htmlFor="blogDescription" className="home-text">
-                  Blog Description
-                </label>
-                <textarea
-                  id="blogDescription"
-                  value={blogDescription}
-                  onChange={handleBlogDescriptionChange}
-                  className="home-btn2"
-                  rows="5"
-                  placeholder="Enter the description"
-                  required
-                ></textarea>
-              </div>
-              <button type="submit" className="home-btn1 bg-blue-700">
-                Create Blog
-              </button>
-            </form>
-          </div>
+          {token && authorId && (
+            <div className="home-form">
+              <form onSubmit={handleCreateBlog}>
+                <div className="mb-6">
+                  <label htmlFor="blogTitle" className="home-text">
+                    Blog Title
+                  </label>
+                  <input
+                    type="text"
+                    id="blogTitle"
+                    value={blogTitle}
+                    onChange={handleBlogTitleChange}
+                    className="home-title"
+                    placeholder="Enter the title"
+                    required
+                  />
+                </div>
+                <div className="mb-6">
+                  <label htmlFor="blogDescription" className="home-text">
+                    Blog Description
+                  </label>
+                  <textarea
+                    id="blogDescription"
+                    value={blogDescription}
+                    onChange={handleBlogDescriptionChange}
+                    className="home-btn2"
+                    rows="5"
+                    placeholder="Enter the description"
+                    required
+                  ></textarea>
+                </div>
+                <button type="submit" className="home-btn1 bg-blue-700">
+                  Create Blog
+                </button>
+              </form>
+            </div>
+          )}
           <div>
             {blogs.map((blog) => (
               <BlogCard

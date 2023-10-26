@@ -1,0 +1,21 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  .btn-dlt {
+    @apply bg-red-500 hover:bg-red-600 text-white font-semibold py-2 px-4 rounded;
+  }
+  .btn-update {
+    @apply bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 mr-2 rounded;
+  }
+  .btn-cancel {
+    @apply bg-green-600 hover:bg-green-700 text-white font-semibold py-2 px-4 mr-2 rounded;
+  }
+  .blog-display-main {
+    @apply bg-black p-8 rounded-lg shadow-lg max-w-4xl m-auto bg-opacity-80;
+  }
+  .blog-editing {
+    @apply text-4xl font-bold text-gray-200 text-center mb-4;
+  }
+}

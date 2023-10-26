@@ -96,7 +96,7 @@ useEffect(() => {
         "http://localhost:3000/blogs?page=0&size=13"
       );
       const fetchedBlogs = response.data.data.rows;
-      fetchedBlogs.sort((a,b) => new Date(b.createdAt) - new Date(a.createdAt));
+      fetchedBlogs.sort((a,b) => new Date(b.updatedAt) - new Date(a.updatedAt));
       setBlogs(fetchedBlogs);
     } catch (error) {
       console.error("Error fetching blog data:", error);

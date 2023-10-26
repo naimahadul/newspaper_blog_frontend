@@ -1,6 +1,14 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom"; 
 import "../homepage/homepage.css";
 import { useAuth } from "../../context/AuthContext";
+
+const truncateContent = (content, limit) => {
+  if (content.length <= limit) {
+    return content;
+  }
+  return content.slice(0, limit) + " ...";
+};
 
 const BlogCard = ({
   id,
@@ -14,7 +22,7 @@ const BlogCard = ({
   const [title, setTitle] = useState(initialTitle);
   const [content, setContent] = useState(initialContent);
   const [isEditing, setIsEditing] = useState(false);
-  const [showFullContent, setShowFullContent] = useState(false);
+  const contentLimit = 200; 
 
   const handleCancel = () => {
     setTitle(initialTitle);
@@ -31,16 +39,11 @@ const BlogCard = ({
     }
   };
 
-
   const handleUpdate = () => {
     setIsEditing(false);
     if (blogAuthorId === authorId) {
       onUpdate(id, title, content);
     }
-  };
-
-  const toggleFullContent = () => {
-    setShowFullContent(!showFullContent);
   };
 
   return (
@@ -78,23 +81,15 @@ const BlogCard = ({
                   rows="5"
                 />
               ) : (
-                <p
-                  className={`text-lg font-semibold ${
-                    showFullContent ? "" : "truncate"
-                  }`}
-                >
-                  {content}
+                <p className="text-lg font-semibold">
+                  {truncateContent(content, contentLimit)}
                 </p>
               )}
             </div>
           </div>
         </div>
         <div className="flex justify-between mt-auto">
-          {!isEditing && (
-            <button onClick={toggleFullContent} className="text-blue-500">
-              {showFullContent ? "Read Less" : "Read More"}
-            </button>
-          )}
+          <Link to={`/full-blog/${id}`}>Read More</Link>
           <div>
             {blogAuthorId === authorId && (
               <div>

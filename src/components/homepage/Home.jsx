@@ -1,16 +1,18 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import BlogCard from "./BlogCard";
 import { Header } from "../homepage/Header";
 import Footer from "../homepage/Footer";
-import BG from "../../assets/Images/bg.jpg";
 import { useAuth } from "../../context/AuthContext";
+import { createBlog, getAllBlogs } from "../../services/homeServices.js";
+import { updateBlog, deleteBlog } from "../../services/blogServices";
 
 const Home = () => {
   const [blogTitle, setBlogTitle] = useState("");
   const [blogDescription, setBlogDescription] = useState("");
   const [blogs, setBlogs] = useState([]);
   const { token, authorId } = useAuth();
+  const [currentPage, setCurrentPage] = useState(1); 
+  const blogsPerPage = 2; 
 
   const handleBlogTitleChange = (event) => {
     setBlogTitle(event.target.value);
@@ -30,16 +32,7 @@ const Home = () => {
       };
 
       try {
-        const response = await axios.post(
-          "http://localhost:3000/blogs",
-          newBlog,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
-        const createdBlog = response.data.data;
+        const createdBlog = await createBlog(newBlog, token);
         setBlogs([createdBlog, ...blogs]);
         setBlogTitle("");
         setBlogDescription("");
@@ -51,20 +44,14 @@ const Home = () => {
 
   const handleUpdateBlog = async (id, updatedTitle, updatedContent) => {
     try {
-      const response = await axios.put(
-        `http://localhost:3000/blogs/${id}`,
+      const updatedBlog = await updateBlog(
+        id,
         {
           title: updatedTitle,
           description: updatedContent,
         },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
+        token
       );
-
-      const updatedBlog = response.data.data;
       setBlogs((prevBlogs) => {
         return prevBlogs.map((blog) =>
           blog.blogId === id ? updatedBlog : blog
@@ -77,11 +64,7 @@ const Home = () => {
 
   const handleDeleteBlog = async (id) => {
     try {
-      await axios.delete(`http://localhost:3000/blogs/${id}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      await deleteBlog(id, token);
       const updatedBlogs = blogs.filter((blog) => blog.blogId !== id);
       setBlogs(updatedBlogs);
     } catch (error) {
@@ -89,28 +72,26 @@ const Home = () => {
     }
   };
 
-useEffect(() => {
-  const fetchBlogs = async () => {
-    try {
-      const response = await axios.get(
-        "http://localhost:3000/blogs?page=0&size=13"
-      );
-      const fetchedBlogs = response.data.data.rows;
-      fetchedBlogs.sort((a,b) => new Date(b.updatedAt) - new Date(a.updatedAt));
-      setBlogs(fetchedBlogs);
-    } catch (error) {
-      console.error("Error fetching blog data:", error);
-    }
-  };
-  fetchBlogs();
-}, []);
+  useEffect(() => {
+    const fetchBlogs = async () => {
+      try {
+        const response = await getAllBlogs(currentPage, blogsPerPage);
+        setBlogs(response);
+      } catch (error) {
+        console.error("Error fetching blog data:", error);
+      }
+    };
+    fetchBlogs();
+  }, [currentPage]);
+
+  const totalPages = Math.ceil(blogs.length / blogsPerPage);
 
   return (
-    <div className="home-bg-img" style={{ backgroundImage: `url(${BG})` }}>
+    <div className="home-bg-img bg-gray-900">
       <Header />
       <div className="home-screen">
         <div className="max-w-screen-md w-full ">
-          <h1 className="text-4xl font-bold mb-8 text-center text-black">
+          <h1 className="text-4xl font-bold mb-8 text-center text-gray-100">
             Welcome to Blogger
           </h1>
           {token && authorId && (
@@ -151,18 +132,30 @@ useEffect(() => {
             </div>
           )}
           <div>
-            {blogs.map((blog) => (
-              <BlogCard
-                key={blog.blogId}
-                id={blog.blogId}
-                title={blog.title}
-                content={blog.description}
-                blogAuthorId={blog.authorId}
-                onDelete={handleDeleteBlog}
-                onUpdate={handleUpdateBlog}
-              />
-            ))}
+            {blogs
+              .slice((currentPage - 1) * blogsPerPage, currentPage * blogsPerPage)
+              .map((blog) => (
+                <BlogCard
+                  key={blog.blogId}
+                  id={blog.blogId}
+                  title={blog.title}
+                  content={blog.description}
+                  blogAuthorId={blog.authorId}
+                  onDelete={handleDeleteBlog}
+                  onUpdate={handleUpdateBlog}
+                />
+              ))}
           </div>
+          {totalPages > 1 && (
+            <div className="pagination text-gray-200">
+              {currentPage > 1 && (
+                <button onClick={() => setCurrentPage(currentPage - 1)}>Previous</button>
+              )}
+              {currentPage < totalPages && (
+                <button onClick={() => setCurrentPage(currentPage + 1)}>Next</button>
+              )}
+            </div>
+          )}
         </div>
       </div>
       <Footer />

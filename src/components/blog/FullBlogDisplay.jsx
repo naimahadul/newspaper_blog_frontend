@@ -1,11 +1,14 @@
 import React, { useState, useEffect, useContext } from "react";
-import axios from "axios";
 import { useParams } from "react-router-dom";
-import BG from "../../assets/Images/bg.jpg";
 import Header from "../homepage/Header";
 import Footer from "../homepage/Footer";
 import { useAuth } from "../../context/AuthContext";
 import "./blogDisplay.css";
+import {
+  getBlog,
+  deleteBlog,
+  updateBlog,
+} from "../../services/blogServices.js";
 
 function FullBlogDisplay() {
   const { id } = useParams();
@@ -32,19 +35,14 @@ function FullBlogDisplay() {
 
   const handleUpdate = async () => {
     try {
-      const response = await axios.put(
-        `http://localhost:3000/blogs/${id}`,
+      const updatedBlog = await updateBlog(
+        id,
         {
           title: updatedTitle,
           description: updatedDescription,
         },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
+        token
       );
-      const updatedBlog = response.data.data;
       setBlog(updatedBlog);
       setIsEditing(false);
     } catch (error) {
@@ -53,24 +51,23 @@ function FullBlogDisplay() {
   };
 
   const handleDelete = async () => {
-    try {
-      await axios.delete(`http://localhost:3000/blogs/${id}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      window.alert("Are you sure You want to delete the Blog?");
-      window.location.href = "/";
-    } catch (error) {
-      console.error("Error deleting blog:", error);
+    const confirmed = window.confirm(
+      "Are you sure you want to delete the Blog?"
+    );
+    if (confirmed) {
+      try {
+        await deleteBlog(id, token);
+        window.location.href = "/";
+      } catch (error) {
+        console.error("Error deleting blog:", error);
+      }
     }
   };
 
   useEffect(() => {
     const fetchBlog = async () => {
       try {
-        const response = await axios.get(`http://localhost:3000/blogs/${id}`);
-        const fetchedBlog = response.data.data;
+        const fetchedBlog = await getBlog(id);
         setBlog(fetchedBlog);
       } catch (error) {
         console.error("Error fetching blog:", error);
@@ -80,20 +77,17 @@ function FullBlogDisplay() {
   }, [id]);
 
   return (
-    <div className="h-screen flex flex-col">
+    <div className="h-screen flex flex-col ">
       <Header />
-      <div
-        className="home-bg-img relative flex-1"
-        style={{ backgroundImage: `url(${BG})` }}
-      >
-        <div className="blog-display-main">
+      <div className="home-bg-img relative flex-1 bg-gray-900">
+        <div className="blog-display-main bg-gray-700 bg-opacity-75">
           <h1 className="blog-editing">
             {isEditing ? (
               <input
                 type="text"
                 value={updatedTitle}
                 onChange={(e) => setUpdatedTitle(e.target.value)}
-                className="w-full bg-gray-700 p-2 rounded mb-2"
+                className="w-full bg-gray-900 p-2 rounded mb-2"
               />
             ) : (
               blog.title
@@ -104,7 +98,7 @@ function FullBlogDisplay() {
               <textarea
                 value={updatedDescription}
                 onChange={(e) => setUpdatedDescription(e.target.value)}
-                className="w-full bg-gray-700 p-2 rounded"
+                className="w-full bg-gray-900 p-2 rounded"
                 rows="10"
                 cols="100"
               />

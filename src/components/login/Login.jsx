@@ -37,8 +37,8 @@ const Login = () => {
         "http://localhost:3000/auth/login",
         data
       );
-      login(response.data.data);
       if (response.status === 201) {
+        login(response.data.data);
         window.location.href = "/";
       } else {
         alert("Login failed. Please check your credentials.");

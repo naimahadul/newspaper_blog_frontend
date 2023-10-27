@@ -23,12 +23,13 @@ export function AuthProvider({ children }) {
   };
 
   const logout = () => {
-    setToken(null);
-    setAuthorId(null);
-    localStorage.removeItem("token");
-    localStorage.removeItem("authorId");
-    window.alert("Are you sure you want to logout?");
-    
+    const confirmed = window.confirm("Are you sure you want to logout?");
+    if (confirmed) {
+      setToken(null);
+      setAuthorId(null);
+      localStorage.removeItem("token");
+      localStorage.removeItem("authorId");
+    }
   };
 
   return (

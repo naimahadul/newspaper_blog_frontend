@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import React from 'react';
+import React from "react";
 import { useAuth } from "../../context/AuthContext.jsx";
 import "../homepage/homepage.css";
 
@@ -20,24 +20,27 @@ export const Header = () => {
           <nav className="flex justify-center flex-1">
             <ul className="flex space-x-4">
               <li>
-                <Link to="/" className="hover:text-gray-300">
+                <Link
+                  to="/"
+                  className="hover:text-gray-500 text-lg font-semibold"
+                >
                   Home
                 </Link>
               </li>
               <li>
-                <Link to="/about" className="hover:text-gray-300">
+                <Link to="/about" className="hover:text-gray-500 text-lg">
                   About Us
                 </Link>
               </li>
               <li>
-                <Link to="/contact" className="hover:text-gray-300">
+                <Link to="/contact" className="hover:text-gray-500 text-lg">
                   Contact Us
                 </Link>
               </li>
             </ul>
           </nav>
         </div>
-        {token ? ( 
+        {token ? (
           <button className="header-login" onClick={handleLogout}>
             Logout
           </button>

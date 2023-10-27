@@ -1,6 +1,5 @@
 import React, { createContext, useState, useContext } from "react";
 
-// Create a context for managing blog data
 const BlogContext = createContext();
 
 export function BlogProvider({ children }) {

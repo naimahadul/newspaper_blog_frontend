@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom"; 
+import { Link } from "react-router-dom";
 import "../homepage/homepage.css";
 import { useAuth } from "../../context/AuthContext";
 
@@ -22,7 +22,7 @@ const BlogCard = ({
   const [title, setTitle] = useState(initialTitle);
   const [content, setContent] = useState(initialContent);
   const [isEditing, setIsEditing] = useState(false);
-  const contentLimit = 200; 
+  const contentLimit = 200;
 
   const handleCancel = () => {
     setTitle(initialTitle);

@@ -4,7 +4,7 @@ import { useAuth } from "../../context/AuthContext.jsx";
 import "../homepage/homepage.css";
 
 export const Header = () => {
-  const { token, logout } = useAuth();
+  const { token, logout , authorName } = useAuth();
 
   const handleLogout = () => {
     logout();
@@ -23,7 +23,7 @@ export const Header = () => {
                 <Link
                   to="/"
                   className="hover:text-gray-500 text-lg font-semibold"
-                >
+                > 
                   Home
                 </Link>
               </li>
@@ -41,9 +41,12 @@ export const Header = () => {
           </nav>
         </div>
         {token ? (
-          <button className="header-login" onClick={handleLogout}>
-            Logout
-          </button>
+          <div className="flex items-center">
+            <span className="hover:text-gray-500 text-blue-300 text-xl font-bold px-3 mr-2">{authorName}</span>
+            <button className="header-login" onClick={handleLogout}>
+              Logout
+            </button>
+          </div>
         ) : (
           <Link to="/login">
             <button className="header-login">Login</button>

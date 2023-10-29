@@ -12,14 +12,19 @@ export function AuthProvider({ children }) {
   const [authorId, setAuthorId] = useState(
     localStorage.getItem("authorId") || null
   );
+  const [authorName, setAuthorName] = useState(
+    localStorage.getItem("authorName") || null
+  );
 
-  const login = (newToken) => {
+  const login = (newToken, authorName) => {
     setToken(newToken);
     localStorage.setItem("token", newToken);
     const decodedToken = jwt_decode(newToken);
     const tokenAuthorId = decodedToken.userId;
     localStorage.setItem("authorId", tokenAuthorId);
     setAuthorId(tokenAuthorId);
+    localStorage.setItem("authorName", authorName);
+    setAuthorName(authorName);
   };
 
   const logout = () => {
@@ -33,7 +38,9 @@ export function AuthProvider({ children }) {
   };
 
   return (
-    <AuthContext.Provider value={{ token, authorId, login, logout }}>
+    <AuthContext.Provider
+      value={{ token, authorId, login, logout, authorName }}
+    >
       {children}
     </AuthContext.Provider>
   );

@@ -38,7 +38,7 @@ const Login = () => {
         data
       );
       if (response.status === 201) {
-        login(response.data.data);
+        login(response.data.data,data.username);
         window.location.href = "/";
       } else {
         alert("Login failed. Please check your credentials.");

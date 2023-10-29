@@ -4,15 +4,20 @@ import { Header } from "../homepage/Header";
 import Footer from "../homepage/Footer";
 import { useAuth } from "../../context/AuthContext";
 import { createBlog, getAllBlogs } from "../../services/homeServices.js";
-import { updateBlog, deleteBlog } from "../../services/blogServices";
+import {
+  updateBlog,
+  deleteBlog,
+  getBlogTableSize,
+} from "../../services/blogServices";
 
 const Home = () => {
   const [blogTitle, setBlogTitle] = useState("");
   const [blogDescription, setBlogDescription] = useState("");
   const [blogs, setBlogs] = useState([]);
   const { token, authorId } = useAuth();
-  const [currentPage, setCurrentPage] = useState(1); 
-  const blogsPerPage = 2; 
+  const [currentPage, setCurrentPage] = useState(0);
+  const [totalPage, setTotalPage] = useState(0);
+  const blogsPerPage = 3;
 
   const handleBlogTitleChange = (event) => {
     setBlogTitle(event.target.value);
@@ -73,6 +78,14 @@ const Home = () => {
   };
 
   useEffect(() => {
+    getBlogTableSize()
+      .then((size) => {
+        setTotalPage(size);
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
+
     const fetchBlogs = async () => {
       try {
         const response = await getAllBlogs(currentPage, blogsPerPage);
@@ -84,8 +97,11 @@ const Home = () => {
     fetchBlogs();
   }, [currentPage]);
 
-  const totalPages = Math.ceil(blogs.length / blogsPerPage);
-
+  let page = Math.floor(totalPage / blogsPerPage);
+  let page1 = totalPage / blogsPerPage;
+  if (page == page1) {
+    page--;
+  }
   return (
     <div className="home-bg-img bg-gray-900">
       <Header />
@@ -132,30 +148,37 @@ const Home = () => {
             </div>
           )}
           <div>
-            {blogs
-              .slice((currentPage - 1) * blogsPerPage, currentPage * blogsPerPage)
-              .map((blog) => (
-                <BlogCard
-                  key={blog.blogId}
-                  id={blog.blogId}
-                  title={blog.title}
-                  content={blog.description}
-                  blogAuthorId={blog.authorId}
-                  onDelete={handleDeleteBlog}
-                  onUpdate={handleUpdateBlog}
-                />
-              ))}
+            {blogs.map((blog) => (
+              <BlogCard
+                key={blog.blogId}
+                id={blog.blogId}
+                title={blog.title}
+                content={blog.description}
+                blogAuthorId={blog.authorId}
+                onDelete={handleDeleteBlog}
+                onUpdate={handleUpdateBlog}
+              />
+            ))}
           </div>
-          {totalPages > 1 && (
-            <div className="pagination text-gray-200">
-              {currentPage > 1 && (
-                <button onClick={() => setCurrentPage(currentPage - 1)}>Previous</button>
-              )}
-              {currentPage < totalPages && (
-                <button onClick={() => setCurrentPage(currentPage + 1)}>Next</button>
-              )}
-            </div>
-          )}
+          <div className="pagination text-gray-200 flex justify-center">
+            {currentPage > 0 && (
+              <button
+                className="font-semibold px-2 hover:text-gray-500 "
+                onClick={() => setCurrentPage(currentPage - 1)}
+              >
+                Previous
+              </button>
+            )}
+            <div className="px-5 text-sky-200">{currentPage + 1}</div>
+            {currentPage < page && (
+              <button
+                className="font-semibold hover:text-gray-500"
+                onClick={() => setCurrentPage(currentPage + 1)}
+              >
+                Next
+              </button>
+            )}
+          </div>
         </div>
       </div>
       <Footer />

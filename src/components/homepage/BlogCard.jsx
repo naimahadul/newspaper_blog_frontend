@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import "../homepage/homepage.css";
 import { useAuth } from "../../context/AuthContext";
+import { getUsername } from "../../services/blogServices";
 
 const truncateContent = (content, limit) => {
   if (content.length <= limit) {
@@ -22,6 +23,7 @@ const BlogCard = ({
   const [title, setTitle] = useState(initialTitle);
   const [content, setContent] = useState(initialContent);
   const [isEditing, setIsEditing] = useState(false);
+  const [username, setUsername] = useState("");
   const contentLimit = 200;
 
   const handleCancel = () => {
@@ -45,6 +47,18 @@ const BlogCard = ({
       onUpdate(id, title, content);
     }
   };
+
+  useEffect(() => {
+    const getByUsername = async () => {
+      try {
+        const response = await getUsername(blogAuthorId);
+        setUsername(response);
+      } catch (error) {
+        console.error("Error fetching username:", error);
+      }
+    };
+    getByUsername();
+  }, []);
 
   return (
     <div>
@@ -88,8 +102,11 @@ const BlogCard = ({
             </div>
           </div>
         </div>
+        <div className="text-blue-300 font-semibold">
+          {username && <p className="text-lg mb-2">Author: {username}</p>}
+        </div>
         <div className="flex justify-between mt-auto">
-          <Link to={`/full-blog/${id}`}>Read More</Link>
+          <Link to={`/${id}`}>Read More</Link>
           <div>
             {blogAuthorId === authorId && (
               <div>

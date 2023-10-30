@@ -6,7 +6,7 @@ const AboutUs = () => {
   return (
     <div className="flex flex-col min-h-screen">
       <Header />
-      <div className="bg-gray-900 p-6 rounded flex-1">
+      <div className="bg-gray-900 p-6 flex-1">
         <h2 className="text-3xl font-bold mb-4 text-gray-100">About Us</h2>
         <p className="text-lg text-gray-100 mb-4">
           Welcome to our blog! We are passionate about sharing knowledge and

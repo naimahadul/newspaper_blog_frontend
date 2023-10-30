@@ -8,6 +8,7 @@ import {
   updateBlog,
   deleteBlog,
   getBlogTableSize,
+  getUsername,
 } from "../../services/blogServices";
 
 const Home = () => {
@@ -17,6 +18,7 @@ const Home = () => {
   const { token, authorId } = useAuth();
   const [currentPage, setCurrentPage] = useState(0);
   const [totalPage, setTotalPage] = useState(0);
+ 
   const blogsPerPage = 3;
 
   const handleBlogTitleChange = (event) => {
@@ -76,6 +78,8 @@ const Home = () => {
       console.error("Error deleting blog:", error);
     }
   };
+
+
 
   useEffect(() => {
     getBlogTableSize()
@@ -160,16 +164,18 @@ const Home = () => {
               />
             ))}
           </div>
-          <div className="pagination text-gray-200 flex justify-center">
+          <div className="text-gray-200 flex justify-center">
             {currentPage > 0 && (
               <button
-                className="font-semibold px-2 hover:text-gray-500 "
+                className="font-semibold px-1 hover:text-gray-500 "
                 onClick={() => setCurrentPage(currentPage - 1)}
               >
                 Previous
               </button>
             )}
-            <div className="px-5 text-sky-200">{currentPage + 1}</div>
+            <div className="px-5 text-lg font-semibold text-sky-200">
+              {currentPage + 1}
+            </div>
             {currentPage < page && (
               <button
                 className="font-semibold hover:text-gray-500"
@@ -179,6 +185,7 @@ const Home = () => {
               </button>
             )}
           </div>
+          
         </div>
       </div>
       <Footer />

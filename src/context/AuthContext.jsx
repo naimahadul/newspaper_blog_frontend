@@ -32,8 +32,10 @@ export function AuthProvider({ children }) {
     if (confirmed) {
       setToken(null);
       setAuthorId(null);
+      setAuthorName(null);
       localStorage.removeItem("token");
       localStorage.removeItem("authorId");
+      localStorage.removeItem("authorName");
     }
   };
 

@@ -19,7 +19,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/about" element={<AboutUs />} />
           <Route path="/contact" element={<ContactUs />} />
-          <Route path="/full-blog/:id" element={<FullBlogDisplay />} />
+          <Route path="/:id" element={<FullBlogDisplay />} />
         </Routes>
       </BlogProvider>
     </AuthProvider>

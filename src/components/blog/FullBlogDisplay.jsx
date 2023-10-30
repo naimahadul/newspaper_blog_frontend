@@ -8,6 +8,7 @@ import {
   getBlog,
   deleteBlog,
   updateBlog,
+  getUsername,
 } from "../../services/blogServices.js";
 
 function FullBlogDisplay() {
@@ -18,10 +19,21 @@ function FullBlogDisplay() {
     description: "",
     createdAt: "",
     updatedAt: "",
+    authorId: "",
   });
   const [isEditing, setIsEditing] = useState(false);
   const [updatedTitle, setUpdatedTitle] = useState("");
   const [updatedDescription, setUpdatedDescription] = useState("");
+  const [authorUsername, setAuthorUsername] = useState("");
+
+  const fetchAuthorUsername = async (authorId) => {
+    try {
+      const response = await getUsername(authorId);
+      setAuthorUsername(response);
+    } catch (error) {
+      console.error("Error fetching author's username:", error);
+    }
+  };
 
   const handleEdit = () => {
     setUpdatedTitle(blog.title);
@@ -69,6 +81,7 @@ function FullBlogDisplay() {
       try {
         const fetchedBlog = await getBlog(id);
         setBlog(fetchedBlog);
+        fetchAuthorUsername(fetchedBlog.authorId);
       } catch (error) {
         console.error("Error fetching blog:", error);
       }
@@ -107,6 +120,9 @@ function FullBlogDisplay() {
             )}
           </p>
           <div className="mt-8">
+            <div className="text-blue-300 font-semibold text-lg mb-1">
+              Author: {authorUsername}
+            </div>
             <div className="text-gray-300">
               Created: {new Date(blog.createdAt).toLocaleString()}
             </div>

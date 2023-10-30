@@ -38,11 +38,23 @@ const deleteBlog = async (id, token) => {
 const getBlogTableSize = async () => {
   try {
     const response = await axios.get(`${BASE_URL}/blogs/size`);
-    const size=response.data.count;
+    const size = response.data.count;
     return size;
   } catch (error) {
     throw error;
   }
 };
 
-export { getBlog, updateBlog, deleteBlog,getBlogTableSize };
+const getUsername = async (blogAuthorId) => {
+  try {
+    const response = await axios.get(
+      `${BASE_URL}/blogs/username/${blogAuthorId}`
+    );
+    const username = response.data.username;
+    return username;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export { getBlog, updateBlog, deleteBlog, getBlogTableSize, getUsername };
